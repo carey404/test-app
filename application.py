@@ -23,9 +23,8 @@ def get_products():
         # Pretty print the JSON data with an indent of 4 spaces
         pretty_products = json.dumps(products_list, indent=4)
 
-
         # Use render_template to serve your HTML page with the pretty printed JSON
-        return render_template('index.html', data=products_list)
+        return render_template('index.html', data=pretty_products)
     except stripe.error.StripeError as e:
         # Handle error: e.g., invalid parameters, authentication error
         return jsonify(error=str(e)), 400
