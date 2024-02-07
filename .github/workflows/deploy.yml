@@ -32,7 +32,7 @@ jobs:
         export-env: true
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        SECRET: "op://Production/API KEY/credential"
+        SECRET: "op://Service Account Vault/API KEY/credential"
 
     - name: Print masked secret
       run: echo "$SECRET"
