@@ -45,8 +45,8 @@ jobs:
       with:
         aws_access_key: $AWS_ACCESS_KEY_ID
         aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
-        region: $AWS_REGION
-        application_name: $APPLICATION_NAME
-        environment_name: $ENVIRONMENT_NAME
+        AWS_REGION: "us-west-2"
+        APPLICATION_NAME: "Stripe Test"
+        ENVIRONMENT_NAME: "StripeTest-env"
         version_label: ${{ github.sha }}
         deployment_package: application.zip
