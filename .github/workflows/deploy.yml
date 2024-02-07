@@ -33,20 +33,27 @@ jobs:
         export-env: true
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        APIKEY: "op://Service Account Vault/API KEY/credential"
-        #AWS_ACCESS_KEY: "op://Service Account Vault/AWS IAM User/username"
-        #AWS_SECRET_KEY: "op://Service Account Vault/AWS IAM User/credential"
-        AWS_REGION: "us-west-2"
-        APPLICATION_NAME: "Stripe Test"
-        ENVIRONMENT_NAME: "StripeTest-env"
-      
+        AWS_ACCESS_KEY: "op://Service Account Vault/AWS IAM User/username"
+        AWS_SECRET_KEY: "op://Service Account Vault/AWS IAM User/credential"
+        STRIPE_API_KEY: "op://Service Account Vault/API KEY/credential"
+
     - name: Deploy to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v18
       with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+        # aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        # aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+        aws_access_key: $AWS_ACCESS_KEY
+        aws_secret_key: $AWS_SECRET_KEY
         region: "us-west-2"
         application_name: "StripeTest"
         environment_name: "StripeTest-env"
         version_label: ${{github.run_id}}
         deployment_package: application.zip
+    
+    - name: Update Elastic Beanstalk environment with STRIPE_API_KEY
+      run: |
+        aws elasticbeanstalk update-environment --environment-name "StripeTest-env" --option-settings Namespace=aws:elasticbeanstalk:application:environment,OptionName=STRIPE_API_KEY,Value=$STRIPE_API_KEY
+      env:
+        aws_access_key: $AWS_ACCESS_KEY
+        aws_secret_key: $AWS_SECRET_KEY
+        region: "us-west-2"
