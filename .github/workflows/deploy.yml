@@ -12,18 +12,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
       
-    # - name: Set up Python
-    #   uses: actions/setup-python@v2
-    #   with:
-    #     python-version: '3.8'  # Match the Python version used by your application
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'  # Match the Python version used by your application
       
-    # - name: Install dependencies
-    #   run: |
-    #     python -m pip install --upgrade pip
-    #     pip install -r requirements.txt
-      
-    # - name: Zip the application
-    #   run: zip -r application.zip . -x "*.git*" "/*"
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip freeze > requirements.txt
+        
+    - name: Zip application for deployment
+      run: zip -r application.zip . -x "*.git*"
 
     - name: Load secret
       uses: 1password/load-secrets-action@v1
@@ -32,19 +33,24 @@ jobs:
         export-env: true
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        SECRET: "op://Service Account Vault/API KEY/credential"
+        APIKEY: "op://Service Account Vault/API KEY/credential"
+        AWS_ACCESS_KEY_ID: "op://Service Account Vault/AWS IAM User/username"
+        AWS_SECRET_ACCESS_KEY: "op://Service Account Vault/AWS IAM User/credential"
+        AWS_REGION: "us-west-2"
+        APPLICATION_NAME: "Stripe Test"
+        ENVIRONMENT_NAME: "StripeTest-env"
 
     - name: Print masked secret
       run: echo "$SECRET"
         # Prints: Secret: ***
       
-    # - name: Deploy to AWS Elastic Beanstalk
-    #   uses: einaregilsson/beanstalk-deploy@v18
-    #   with:
-    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-    #     region: ${{ secrets.AWS_REGION }}
-    #     application_name: ${{ secrets.APPLICATION_NAME }}
-    #     environment_name: ${{ secrets.ENVIRONMENT_NAME }}
-    #     version_label: ${{ github.sha }}
-    #     deployment_package: application.zip
+    - name: Deploy to AWS Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v18
+      with:
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        region: ${{ secrets.AWS_REGION }}
+        application_name: ${{ secrets.APPLICATION_NAME }}
+        environment_name: ${{ secrets.ENVIRONMENT_NAME }}
+        version_label: ${{ github.sha }}
+        deployment_package: application.zip
