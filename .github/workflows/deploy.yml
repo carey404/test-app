@@ -32,19 +32,19 @@ jobs:
         export-env: true
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        SECRET: op://app-cicd/hello-world/secret
+        SECRET: "op://Production/API KEY/credential"
 
     - name: Print masked secret
-      run: echo "Secret: $SECRET"
+      run: echo "$SECRET"
         # Prints: Secret: ***
       
-    - name: Deploy to AWS Elastic Beanstalk
-      uses: einaregilsson/beanstalk-deploy@v18
-      with:
-        aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        region: ${{ secrets.AWS_REGION }}
-        application_name: ${{ secrets.APPLICATION_NAME }}
-        environment_name: ${{ secrets.ENVIRONMENT_NAME }}
-        version_label: ${{ github.sha }}
-        deployment_package: application.zip
+    # - name: Deploy to AWS Elastic Beanstalk
+    #   uses: einaregilsson/beanstalk-deploy@v18
+    #   with:
+    #     aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    #     region: ${{ secrets.AWS_REGION }}
+    #     application_name: ${{ secrets.APPLICATION_NAME }}
+    #     environment_name: ${{ secrets.ENVIRONMENT_NAME }}
+    #     version_label: ${{ github.sha }}
+    #     deployment_package: application.zip
