@@ -33,9 +33,9 @@ jobs:
         export-env: true
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-        AWS_ACCESS_KEY: "op://Service Account Vault/AWS IAM User/username"
-        AWS_SECRET_KEY: "op://Service Account Vault/AWS IAM User/credential"
-        STRIPE_API_KEY: "op://Service Account Vault/API KEY/credential"
+        AWS_ACCESS_KEY: op://ServiceAccount/AWS/username
+        AWS_SECRET_KEY: op://ServiceAccount/AWS/credential
+        STRIPE_API_KEY: op://ServiceAccount/API-KEY/credential
 
     - name: Deploy to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v18
@@ -58,4 +58,4 @@ jobs:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         AWS_DEFAULT_REGION: "us-west-2"
-        STRIPE_API_KEY: ${STRIPE_API_KEY}
+        STRIPE_API_KEY: $STRIPE_API_KEY
