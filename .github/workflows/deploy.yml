@@ -39,18 +39,14 @@ jobs:
         AWS_REGION: "us-west-2"
         APPLICATION_NAME: "Stripe Test"
         ENVIRONMENT_NAME: "StripeTest-env"
-
-    - name: Print masked secret
-      run: echo "$AWS_ACCESS_KEY_ID"
-        # Prints: Secret: ***
       
-    # - name: Deploy to AWS Elastic Beanstalk
-    #   uses: einaregilsson/beanstalk-deploy@v18
-    #   with:
-    #     aws_access_key: $AWS_ACCESS_KEY_ID
-    #     aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
-    #     region: $AWS_REGION
-    #     application_name: $APPLICATION_NAME
-    #     environment_name: $ENVIRONMENT_NAME
-    #     version_label: ${{ github.sha }}
-    #     deployment_package: application.zip
+    - name: Deploy to AWS Elastic Beanstalk
+      uses: einaregilsson/beanstalk-deploy@v18
+      with:
+        aws_access_key: $AWS_ACCESS_KEY_ID
+        aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
+        region: $AWS_REGION
+        application_name: $APPLICATION_NAME
+        environment_name: $ENVIRONMENT_NAME
+        version_label: ${{ github.sha }}
+        deployment_package: application.zip
