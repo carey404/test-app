@@ -40,10 +40,10 @@ jobs:
     - name: Deploy to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v18
       with:
-        # aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
-        # aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-        aws_access_key: $AWS_ACCESS_KEY
-        aws_secret_key: $AWS_SECRET_KEY
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+        # aws_access_key: $AWS_ACCESS_KEY
+        # aws_secret_key: $AWS_SECRET_KEY
         region: "us-west-2"
         application_name: "StripeTest"
         environment_name: "StripeTest-env"
@@ -54,6 +54,6 @@ jobs:
       run: |
         aws elasticbeanstalk update-environment --environment-name "StripeTest-env" --option-settings Namespace=aws:elasticbeanstalk:application:environment,OptionName=STRIPE_API_KEY,Value=$STRIPE_API_KEY
       env:
-        aws_access_key: $AWS_ACCESS_KEY
-        aws_secret_key: $AWS_SECRET_KEY
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
         region: "us-west-2"
