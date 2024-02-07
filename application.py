@@ -4,13 +4,13 @@ from flask import Flask, jsonify
 from werkzeug.urls import quote as url_quote
 
 
-app = Flask(__name__)
+application = Flask(__name__)
 
 # Set your Stripe secret key: remember to change this to your live secret key in production
 # See your keys here: https://dashboard.stripe.com/account/apikeys
 stripe.api_key = os.getenv('STRIPE_API_KEY')
 
-@app.route('/')
+@application.route('/')
 def get_products():
     try:
         # Fetch all Stripe products
@@ -26,4 +26,4 @@ def get_products():
         return jsonify(error=str(e)), 400
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    application.run(debug=True)
