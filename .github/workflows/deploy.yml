@@ -34,8 +34,8 @@ jobs:
       env:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
         APIKEY: "op://Service Account Vault/API KEY/credential"
-        AWS_ACCESS_KEY_ID: "op://Service Account Vault/AWS IAM User/username"
-        AWS_SECRET_ACCESS_KEY: "op://Service Account Vault/AWS IAM User/credential"
+        #AWS_ACCESS_KEY: "op://Service Account Vault/AWS IAM User/username"
+        #AWS_SECRET_KEY: "op://Service Account Vault/AWS IAM User/credential"
         AWS_REGION: "us-west-2"
         APPLICATION_NAME: "Stripe Test"
         ENVIRONMENT_NAME: "StripeTest-env"
@@ -43,8 +43,8 @@ jobs:
     - name: Deploy to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v18
       with:
-        aws_access_key: $AWS_ACCESS_KEY_ID
-        aws_secret_key: $AWS_SECRET_ACCESS_KEY
+        aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
         region: "us-west-2"
         application_name: "Stripe Test"
         environment_name: "StripeTest-env"
