@@ -44,9 +44,9 @@ jobs:
       uses: einaregilsson/beanstalk-deploy@v18
       with:
         aws_access_key: $AWS_ACCESS_KEY_ID
-        aws_secret_access_key: $AWS_SECRET_ACCESS_KEY
-        AWS_REGION: "us-west-2"
-        APPLICATION_NAME: "Stripe Test"
-        ENVIRONMENT_NAME: "StripeTest-env"
+        aws_secret_key: $AWS_SECRET_ACCESS_KEY
+        region: "us-west-2"
+        application_name: "Stripe Test"
+        environment_name: "StripeTest-env"
         version_label: ${{ github.sha }}
         deployment_package: application.zip
