@@ -14,20 +14,14 @@ stripe.api_key = os.getenv('STRIPE_API_KEY')
 @application.route('/')
 def get_products():
     try:
-        # Fetch all Stripe products
-        products = stripe.Product.list()
-        
-        # Convert Stripe's response to a list of dictionaries simplifying the output
-        products_list = [{'id': product['id'], 'name': product['name']} for product in products.auto_paging_iter()]
-        
-        # Pretty print the JSON data with an indent of 4 spaces
-        pretty_products = json.dumps(products_list, indent=4)
+        product = stripe.Product.retrieve('prod_PW4OvOwEwn3TnW')
 
         # Use render_template to serve your HTML page with the pretty printed JSON
-        return render_template('index.html', data=pretty_products)
+        return render_template('index.html', data=product)
     except stripe.error.StripeError as e:
-        # Handle error: e.g., invalid parameters, authentication error
-        return jsonify(error=str(e)), 400
+        # Handle error by rendering the error message in the template within `pre` tags
+        error_message = json.dumps({'error': str(e)}, indent=4)
+        return render_template('index.html', data=error_message), 400
 
 if __name__ == '__main__':
     application.run(debug=True)
