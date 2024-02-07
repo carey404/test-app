@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beyond Hackathon Demo</title>
+<style>
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    .bg {
+        background-image: url('../static/beyond.png');
+        height: 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+    .content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+    }
+    .title {
+        font-size: 2em;
+    }
+    .subtitle {
+        font-size: 1.5em;
+    }
+    pre {
+        background-color: rgba(0, 0, 0, 0.7);
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div class="bg">
+    <div class="content">
+        <div class="title">Beyond Hackathon Demo</div>
+        <div class="subtitle">Webhooks for Item Updates</div>
+        <pre id="json">{{ data|tojson|safe }}</pre>
+    </div>
+</div>
+
+</body>
+</html>
