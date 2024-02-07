@@ -1,13 +1,29 @@
-from flask import Flask
 import os
+import stripe
+from flask import Flask, jsonify
+from werkzeug.urls import quote as url_quote
+
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    secret_api_key = os.environ.get('SECRET_API_KEY', 'Default API Key')
-    # In a real scenario, you would use the secret API key to fetch data from an API.
-    return f'Hello, your secret API key is: {secret_api_key}'
+# Set your Stripe secret key: remember to change this to your live secret key in production
+# See your keys here: https://dashboard.stripe.com/account/apikeys
+stripe.api_key = os.getenv('STRIPE_API_KEY')
+
+@app.route('/products')
+def get_products():
+    try:
+        # Fetch all Stripe products
+        products = stripe.Product.list()
+        
+        # Convert Stripe's response to a list of dictionaries simplifying the output
+        products_list = [{'id': product['id'], 'name': product['name']} for product in products.auto_paging_iter()]
+        
+        # Return the list of products as a JSON response
+        return jsonify(products_list)
+    except stripe.error.StripeError as e:
+        # Handle error: e.g., invalid parameters, authentication error
+        return jsonify(error=str(e)), 400
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
