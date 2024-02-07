@@ -35,7 +35,7 @@ jobs:
         OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
         AWS_ACCESS_KEY: op://ServiceAccount/AWS/username
         AWS_SECRET_KEY: op://ServiceAccount/AWS/credential
-        STRIPE_API_KEY: op://ServiceAccount/API-KEY/credential
+        API_KEY: op://ServiceAccount/API-KEY/credential
 
     - name: Deploy to AWS Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v18
@@ -53,9 +53,9 @@ jobs:
     - name: Update Elastic Beanstalk environment with STRIPE_API_KEY
       run: |
         aws elasticbeanstalk update-environment --environment-name "StripeTest-env" \
-        --option-settings Namespace=aws:elasticbeanstalk:application:environment,OptionName=STRIPE_API_KEY,Value=$STRIPE_API_KEY
+        --option-settings Namespace=aws:elasticbeanstalk:application:environment,OptionName=STRIPE_API_KEY,Value=$API_KEY
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
         AWS_DEFAULT_REGION: "us-west-2"
-        STRIPE_API_KEY: $STRIPE_API_KEY
+        STRIPE_API_KEY: $API_KEY
